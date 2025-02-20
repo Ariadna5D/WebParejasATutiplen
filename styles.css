@@ -1,0 +1,214 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-size: 1rem;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+nav {
+    background-color: #444;
+    padding: 0.5rem;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 1rem;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 0.625rem;
+    margin-top: auto;
+}
+
+main {
+    flex: 1;
+    padding: 1.25rem;
+    background-color: #f4f4f4;
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+    flex-direction: column;
+}
+
+/* Contenedor principal de cartas */
+#contenedorCartas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 200rem;
+    padding: 1rem;
+}
+/* Contenedor principal de vidas */
+#contenedorVidas{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 3rem;
+    min-height: 15rem;
+    width: 100%;
+
+}
+
+/* Contenedor principal de tiempo */
+#tiempo{
+    font-size: 4rem;
+    height: 5rem;
+    text-align: center;
+}
+
+/* Estilo individual de cada carta */
+.carta {
+    
+    margin: 0.5rem;
+    width: 7.5rem;
+    height: 11rem;
+    border-radius: 0.7rem;
+    border: #2c3e50 0.2rem solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    transition:
+        transform 0.3s ease,
+        background-color 0.2s ease-in-out,
+        box-shadow 0.3s ease-out;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    animation: aparecer 0.3s ease-in-out; 
+}
+
+/* estilo al pasar el raton por encima*/
+.carta:hover {
+    transform: scale(1.15);
+    background-color: #f0f0f0;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo de cada carta SELECIONADA/REVELADA */
+.carta.seleccionada {
+    background-color: cyan;
+    transform: scale(1.1); 
+}
+
+/* Estilo de cada carta COMPLETADA*/
+.carta.seleccionada.bloqueada{
+    border-color: yellow;
+    pointer-events: none;
+}
+
+/* Estilo de cada carta BLOQUEADA SIN COMPLETAR*/
+.carta.bloqueada{
+    border-color: red;
+    pointer-events: none;
+}
+
+/* Corazones de vidas */
+.vida{
+    height: 4rem;
+    margin: 1rem;
+    display: flex;
+    animation: balanceo ease-in-out 1s infinite alternate; 
+
+}
+
+.vida.borrar{
+
+    display: flex;
+    animation: rebote 0.8s ease-in;
+
+}
+
+/* https://youtu.be/r_PL0K2fGkY?feature=shared */
+/* Esta es la base para que se vea sin entorpecer al resto del DOM */
+.panelEmergente{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    animation: aparecer 3s ease-in-out;
+    z-index: -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panelEmergente.abrir{
+    opacity: 1;
+    z-index: 200;
+}
+
+.ventana{
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f0f0;
+    border: #2c3e50 0.2rem solid;
+    padding: 1rem 2rem;
+    text-align: center;
+    width: 35rem;
+    border-radius: 1rem;
+}
+
+/* Animacon de aparecer */
+@keyframes aparecer {
+    0% {
+        transform: scale(0);
+        opacity: 0;}
+    
+    100% {
+        transform: scale(1);
+        opacity: 1;}
+}
+
+/* Animacionde Balanceo*/
+@keyframes balanceo {
+    0% {
+        rotate: -15deg;}
+    100% {
+        rotate: 15deg;}
+}
+
+@keyframes rebote {
+    0% {opacity: 1;
+        transform: translateY(0px);
+        }
+    15% {
+        transform: translateY(-1rem);
+        opacity: 1;}
+    100% {
+        transform: translateY(4rem);
+        opacity: 0}
+
+
+}
