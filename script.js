@@ -117,9 +117,9 @@ class ManagerCartas {
     }
 
     // Función para crear cartas
-    crearCartas() {
+    crearCartas(num) {
         this.contenedor.innerHTML = '';
-        const cantidad = parseInt(prompt('¿Cuántas cartas deseas crear?'));
+        const cantidad = num;
         this.listaCartas = [];
 
         if (!cantidad || cantidad <= 0) {
@@ -234,10 +234,10 @@ class ManagerVidas{
         this.contenedorVidas = document.getElementById('contenedorVidas');
     }
     
-    inicializarVidas() {
+    inicializarVidas(num) {
         this.vidas = [];
         this.contenedorVidas.innerHTML = '';
-        const cantidad = parseInt(prompt('¿Cuántas vidas deseas tener?'));
+        const cantidad = num;
 
         for (let i = 0; i < cantidad; i++) {
             let vida = new Vida();
@@ -267,12 +267,14 @@ class ManagerVidas{
 class ManagerTemporizador{
     
     constructor(){
-        this.tiempoRestante = 60; // Tiempo inicial en segundos
         this.temporizadorElement = document.getElementById('tiempo');
+    }
+
+    inicializarTiempo(num){
+        this.tiempoRestante = num;
     }
     
     iniciarTemporizador() {
-        this.tiempoRestante = 60;
         this.minutos= Math.floor(this.tiempoRestante / 60);
         this.segundos = this.tiempoRestante - this.minutos * 60;
         
@@ -328,14 +330,22 @@ class ManagerTemporizador{
 class ManagerGame{
 
     constructor(){
-        this.vGanar = document.getElementById("ventanaGanar")
-        this.vPerder = document.getElementById("ventanaPerder")
-        
+        this.vGanar = document.getElementById("ventanaGanar");
+        this.vPerder = document.getElementById("ventanaPerder");
+        this.vJugar = document.getElementById("ventanaEmpezar");
         this.botones = document.getElementsByClassName("botonJugar");
+        
+        this.botonEmpezar = document.getElementById("botonEmpezar");
+        this.inputVidas = document.getElementById("inputVidas");
+        this.inputCartas = document.getElementById("inputCartas");
+        this.inputTiempo = document.getElementById("inputTiempo")
+
 
         for (let i = 0; i < this.botones.length; i++) {
-            this.botones[i].addEventListener("click", () => this.empezarJuego());
+            this.botones[i].addEventListener("click", () => this.prepararJuego());
         }
+
+        this.botonEmpezar.addEventListener("click", () => this.empezarJuego());
         
     }
 
@@ -352,12 +362,20 @@ class ManagerGame{
         this.vPerder.classList.toggle('abrir')
     }
 
-    empezarJuego(){
+    prepararJuego(){
         this.vGanar.classList.toggle('abrir',false);
         this.vPerder.classList.toggle('abrir',false);
+        this.vJugar.classList.toggle('abrir',true);
 
-        mC.crearCartas();
-        mV.inicializarVidas();
+
+        
+    }
+
+    empezarJuego(){
+        mC.crearCartas(parseInt(this.inputCartas.value));
+        mV.inicializarVidas(parseInt(this.inputVidas.value));
+        mT.inicializarTiempo(parseInt(this.inputTiempo.value));
+        this.vJugar.classList.toggle('abrir',false);
     }
 
 }
@@ -367,7 +385,7 @@ const mV = new ManagerVidas();
 const mT = new ManagerTemporizador();
 const mG = new ManagerGame();
 
-mG.empezarJuego();
+mG.prepararJuego();
 
 
 
