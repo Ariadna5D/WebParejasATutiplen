@@ -180,6 +180,11 @@ main {
     border-radius: 1rem;
 }
 
+.alerta{
+    color: red;
+    font-weight: bold;
+}
+
 /* Animacon de aparecer */
 @keyframes aparecer {
     0% {

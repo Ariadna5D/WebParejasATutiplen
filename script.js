@@ -122,11 +122,6 @@ class ManagerCartas {
         const cantidad = num;
         this.listaCartas = [];
 
-        if (!cantidad || cantidad <= 0) {
-            alert('Debes ingresar un número válido mayor a 0');
-            return;
-        }
-
         //const fragmento = document.createDocumentFragment();
 
         // Crear parejas de cartas
@@ -335,17 +330,22 @@ class ManagerGame{
         this.vJugar = document.getElementById("ventanaEmpezar");
         this.botones = document.getElementsByClassName("botonJugar");
         
-        this.botonEmpezar = document.getElementById("botonEmpezar");
         this.inputVidas = document.getElementById("inputVidas");
         this.inputCartas = document.getElementById("inputCartas");
         this.inputTiempo = document.getElementById("inputTiempo")
+        this.botonEmpezar = document.getElementById("botonEmpezar");
+        this.botonEmpezarPredefinida = document.getElementById("botonEmpezarPredefinida");
 
+        this.alertaVidas = document.getElementById("alertaVidas");
+        this.alertaCartas = document.getElementById("alertaCartas");
+        this.alertaTiempo = document.getElementById("alertaTiempo");
 
         for (let i = 0; i < this.botones.length; i++) {
             this.botones[i].addEventListener("click", () => this.prepararJuego());
         }
 
         this.botonEmpezar.addEventListener("click", () => this.empezarJuego());
+        this.botonEmpezarPredefinida.addEventListener("click", () => this.empezarJuegoPorDefecto());
         
     }
 
@@ -372,9 +372,42 @@ class ManagerGame{
     }
 
     empezarJuego(){
-        mC.crearCartas(parseInt(this.inputCartas.value));
-        mV.inicializarVidas(parseInt(this.inputVidas.value));
-        mT.inicializarTiempo(parseInt(this.inputTiempo.value));
+        this.sonValoresValidos = true;
+
+        if(parseInt(this.inputVidas.value) <= 0 || !this.inputVidas.value){
+            this.alertaVidas.textContent = "No es un numero Válido!"
+            this.sonValoresValidos=false;
+        }
+        else{
+            this.alertaVidas.textContent = " "
+        }
+        if(parseInt(this.inputCartas.value) <= 0 || !this.inputCartas.value){
+            this.alertaCartas.textContent = "No es un numero Válido!"
+            this.sonValoresValidos=false;
+        }
+        else{
+            this.alertaCartas.textContent = " "
+        }
+        if(parseInt(this.inputTiempo.value) <= 0 || !this.inputTiempo.value){
+            this.alertaTiempo.textContent = "No es un numero Válido!"
+            this.sonValoresValidos=false;
+        }
+        else{
+            this.alertaTiempo.textContent = " "
+        }
+
+        if(this.sonValoresValidos == true){
+            mC.crearCartas(parseInt(this.inputCartas.value));
+            mV.inicializarVidas(parseInt(this.inputVidas.value));
+            mT.inicializarTiempo(parseInt(this.inputTiempo.value));
+            this.vJugar.classList.toggle('abrir',false);
+        }
+    }
+
+    empezarJuegoPorDefecto(){
+        mC.crearCartas(6);
+        mV.inicializarVidas(6);
+        mT.inicializarTiempo(120);
         this.vJugar.classList.toggle('abrir',false);
     }
 
