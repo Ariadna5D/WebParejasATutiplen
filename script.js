@@ -267,41 +267,39 @@ class ManagerTemporizador{
 
     inicializarTiempo(num){
         this.tiempoRestante = num;
+        this.actualizarTemporizador(this.tiempoRestante)
     }
     
     iniciarTemporizador() {
-        this.minutos= Math.floor(this.tiempoRestante / 60);
-        this.segundos = this.tiempoRestante - this.minutos * 60;
         
-        if (this.minutos<10) {
-            this.minutos = '0' + this.minutos;
-        }
-        if (this.segundos<10) {
-            this.segundos = '0' + this.segundos;
-        }
-
-        this.temporizadorElement.textContent = `${this.minutos}:${this.segundos}`;
-
         // Actualizar el temporizador cada segundo
         this.intervalo = setInterval(() => {
             this.tiempoRestante--; 
-            this.minutos= Math.floor(this.tiempoRestante / 60);
-            this.segundos = this.tiempoRestante - this.minutos * 60;
-            
-            if (this.minutos<10) {
-                this.minutos = '0' + this.minutos;
-            }
-            if (this.segundos<10) {
-                this.segundos = '0' + this.segundos;
-            }
-            
-            this.temporizadorElement.textContent = `${ this.minutos}:${this.segundos}`;
+
+            this.actualizarTemporizador(this.tiempoRestante)
 
             // Verificar si el tiempo llegó a cero
             if (this.tiempoRestante <= 0) {
                 mG.perder();
             }
         }, 1000);
+
+
+    }
+
+    actualizarTemporizador(tiempo){
+        
+        let minutos = Math.floor(tiempo / 60);
+        let segundos = tiempo - minutos * 60;
+
+        if (minutos<10) {
+            minutos = '0' + minutos;
+        }
+        if (segundos<10) {
+            segundos = '0' + segundos;
+        }
+
+        this.temporizadorElement.textContent = `${ minutos}:${segundos}`;
     }
 
     detenerTemporizador() {
