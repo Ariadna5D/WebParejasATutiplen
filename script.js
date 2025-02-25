@@ -20,6 +20,11 @@ class Carta {
         this.objetoCarta = document.createElement('div');
         this.objetoCarta.className = 'carta';
         this._contenido = contenido;
+        this.cartaCara = document.createElement('img');
+        this.cartaReverso = document.createElement('img');
+        this.cartaReverso.src ='images/corazon.png';
+        this.cartaCara.src ='images/corazon.png';
+
         this.valorCarta = contenido;
         this.objetoCarta.textContent = contenido;
         this.seMuestra = false;
@@ -60,10 +65,15 @@ class Carta {
 
     mostrarCarta(mostrar) {
         if (mostrar) {
+            //this.cartaCara.style.display = 'block';
+            //this.cartaReverso.style.display = 'none';
             this.objetoCarta.textContent = this.contenido;
         } else {
+            //this.cartaCara.style.display = 'none';
+            //this.cartaReverso.style.display = 'block';
             this.objetoCarta.textContent = '';
         }
+
     }
 }
 
@@ -138,6 +148,8 @@ class ManagerCartas {
         //Crear las cartas con cierto retraso
         for (let i = 0; i < this.listaCartas.length; i++) {
             setTimeout(() => {
+                //this.listaCartas[i].objetoCarta.appendChild(this.cartaCara);
+                //this.listaCartas[i].objetoCarta.appendChild(this.cartaReverso);
                 this.contenedor.appendChild(this.listaCartas[i].objetoCarta);
                 this.listaCartas[i].bloquear();
             }, i * 100); 
