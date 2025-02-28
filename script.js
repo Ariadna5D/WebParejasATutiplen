@@ -1,3 +1,41 @@
+function getCardSkin(num){
+    let image = '';
+    
+    switch (num){
+        case 0: image = 'images/c_back.jpg';
+            break;
+        case 1: image = 'images/c_front.jpg';
+            break;
+        default: image = 'images/c_back.jpg';
+            break;
+    }
+
+    return image;
+}
+
+function getIcon(num){
+    let image = '';
+    switch (num){
+        case 0: image = null;
+            break;
+        case 1: image = 'images/i_fire.png';
+            break;
+        case 2: image = 'images/i_flower.png';
+            break;
+        case 3: image = 'images/i_diamond.png';
+            break;
+        case 4: image = 'images/i_heart.png';
+            break;
+        case 5: image = 'images/i_sparkle.png';
+            break;
+        case 6: image = 'images/i_star.png';
+            break;
+        default: image = 'images/i_fire.png';
+            break;
+    }
+
+    return image;
+}
 
 /*  
     /// OBJETO CARTA ///
@@ -16,17 +54,36 @@ class Carta {
             - Se pone oculta y se desbloquea
             - Se asignan los listeners para que cuando se cliquen se llame al metodo correspondiente
     */
-    constructor(contenido) {
+    constructor(id1,id2) {
         this.objetoCarta = document.createElement('div');
         this.objetoCarta.className = 'carta';
-        this._contenido = contenido;
-        this.cartaCara = document.createElement('img');
-        this.cartaReverso = document.createElement('img');
-        this.cartaReverso.src ='images/corazon.png';
-        this.cartaCara.src ='images/corazon.png';
+        
+        this.cartaDorso = document.createElement('img');
+        this.cartaDorso.src = getCardSkin(0);
+        this.cartaDorso.classList.add('dorso');
 
-        this.valorCarta = contenido;
-        this.objetoCarta.textContent = contenido;
+        this.cartaCara = document.createElement('div');
+        this.cartaCara.classList.add('cara');
+
+        if(id1 != 0){
+            this.img1 = document.createElement('img');
+            this.img1.src = getIcon(id1);
+            this.cartaCara.appendChild(this.img1);
+        }
+
+        if(id2 != 0){
+            this.img2 = document.createElement('img');
+            this.img2.src = getIcon(id2);
+            this.cartaCara.appendChild(this.img2);
+        }
+        
+
+        // Añadir ambas imágenes al contenedor de la carta
+        this.objetoCarta.appendChild(this.cartaDorso);
+        this.objetoCarta.appendChild(this.cartaCara);
+
+        this.valorCarta = "" + id1 + id2;
+        //this.objetoCarta.textContent = contenido;
         this.seMuestra = false;
         this.estaBloqueada = false;
         this.asignarListeners();
@@ -60,20 +117,18 @@ class Carta {
     }
 
     esIgualACarta(cartab) {
-        return this.contenido === cartab.contenido;
+        console.log("Esta Carta es: " + this.valorCarta + " Esta otra es: " + cartab.valorCarta);
+        return this.valorCarta === cartab.valorCarta;
     }
 
     mostrarCarta(mostrar) {
         if (mostrar) {
-            //this.cartaCara.style.display = 'block';
-            //this.cartaReverso.style.display = 'none';
-            this.objetoCarta.textContent = this.contenido;
+            this.cartaCara.style.display = 'block'; // Mostrar la cara
+            this.cartaDorso.style.display = 'none'; // Ocultar el dorso
         } else {
-            //this.cartaCara.style.display = 'none';
-            //this.cartaReverso.style.display = 'block';
-            this.objetoCarta.textContent = '';
+            this.cartaCara.style.display = 'none'; // Ocultar la cara
+            this.cartaDorso.style.display = 'block'; // Mostrar el dorso
         }
-
     }
 }
 
@@ -131,13 +186,25 @@ class ManagerCartas {
         this.contenedor.innerHTML = '';
         const cantidad = num;
         this.listaCartas = [];
-
+        let id1 = 0;
+        let id2 = 1;
+        const maxIcons = 6;
+        
         //const fragmento = document.createDocumentFragment();
 
         // Crear parejas de cartas
         for (let i = 1; i <= cantidad; i++) {
-            const carta1 = new Carta(i);
-            const carta2 = new Carta(i);
+            if(id1 > maxIcons){
+                id1=0;
+                id2=1;
+            }
+            if(id2 > maxIcons){
+                id2 = 1;
+                id1 ++;
+            }
+            id2++;
+            const carta1 = new Carta(id2,id1);
+            const carta2 = new Carta(id2,id1);
 
             this.listaCartas.push(carta1);
             this.listaCartas.push(carta2);
@@ -150,8 +217,12 @@ class ManagerCartas {
             setTimeout(() => {
                 //this.listaCartas[i].objetoCarta.appendChild(this.cartaCara);
                 //this.listaCartas[i].objetoCarta.appendChild(this.cartaReverso);
-                this.contenedor.appendChild(this.listaCartas[i].objetoCarta);
+                let espacioCarta = document.createElement('div');
+                espacioCarta.classList.add("espacioCarta")
+                espacioCarta.appendChild(this.listaCartas[i].objetoCarta);
+                this.contenedor.appendChild(espacioCarta)
                 this.listaCartas[i].bloquear();
+            
             }, i * 100); 
         }
 
