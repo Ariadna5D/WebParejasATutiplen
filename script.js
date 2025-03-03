@@ -2,7 +2,7 @@ function getCardSkin(num){
     let image = '';
     
     switch (num){
-        case 0: image = 'images/c_back.jpg';
+        case 0: image = 'images/c_sunmoon.jpg';
             break;
         case 1: image = 'images/c_front.jpg';
             break;
@@ -228,10 +228,17 @@ class ManagerCartas {
 
         setTimeout(() => {
             this.listaCartas.forEach(carta => {
+                carta.mostrarCarta(true);
+            });
+        }, this.listaCartas.length * 100);
+
+        setTimeout(() => {
+            this.listaCartas.forEach(carta => {
+                carta.mostrarCarta(false);
                 carta.desbloquear();
             });
             mT.iniciarTemporizador();
-        }, this.listaCartas.length * 100);
+        }, this.listaCartas.length * 100 + 3500);
         
         //this.contenedor.appendChild(fragmento);
         //console.log(this.listaCartas);
@@ -277,11 +284,7 @@ class ManagerCartas {
                 this.parejasActuales++;
                 this.cartaA = null;
                 this.cartaB = null;
-
-                // pongo mayor igual por si hay algun tipo de error
-                if(this.parejasActuales >= this.parejasTotales){
-                    mG.ganar();
-                }
+                mG.acierto();
             }
             else{
                 console.log("¡NO SON IGUALES!");
@@ -291,6 +294,7 @@ class ManagerCartas {
                     this.cartaA = null;
                     this.cartaB = null;
                     mV.perderVida();
+                    mG.fallo();
                     }, 1500);
             }
             
@@ -331,6 +335,14 @@ class ManagerVidas{
         }
         if (this.vidas.length <= 0) {
             mG.perder();
+        }
+    }
+
+    anadirVidas(num) {
+        for (let i = 0; i < num; i++) {
+            let vida = new Vida();
+            this.vidas.push(vida);
+            this.contenedorVidas.appendChild(vida.elemento);
         }
     }
 }
@@ -394,7 +406,21 @@ class ManagerTemporizador{
         this.temporizadorElement.textContent = this.tiempoRestante;
     }
 }
+class ManagerMarcador{
+    constructor(){
+        this.panelPuntuacion = document.getElementById("puntuacion");
+        this.panelDescubiertas = document.getElementById("descubiertas");
+        this.panelAciertos = document.getElementById("aciertos");
+    }
 
+    actualizar(){
+        this.panelPuntuacion.textContent = mG.puntuacion;
+        this.panelDescubiertas.textContent = mG.parejasActuales + "/" + mG.parejasTotales;
+        this.panelAciertos.textContent = (mG.aciertos + mG.fallos === 0) 
+    ? "0%" 
+    : Math.round(mG.aciertos / (mG.fallos + mG.aciertos) * 100) + "%";
+    }
+}
 /*  
     /// MANAGER DE JUEGO ///
     Se encarga de:
@@ -427,7 +453,6 @@ class ManagerGame{
 
         this.botonEmpezar.addEventListener("click", () => this.empezarJuego());
         this.botonEmpezarPredefinida.addEventListener("click", () => this.empezarJuegoPorDefecto());
-        
     }
 
     ganar(){
@@ -447,9 +472,11 @@ class ManagerGame{
         this.vGanar.classList.toggle('abrir',false);
         this.vPerder.classList.toggle('abrir',false);
         this.vJugar.classList.toggle('abrir',true);
+        this.fallos = 0;
+        this.aciertos = 0;
+        this.parejasActuales = 0;
+        this.puntuacion = 0;
 
-
-        
     }
 
     empezarJuego(){
@@ -481,7 +508,9 @@ class ManagerGame{
             mC.crearCartas(parseInt(this.inputCartas.value));
             mV.inicializarVidas(parseInt(this.inputVidas.value));
             mT.inicializarTiempo(parseInt(this.inputTiempo.value));
+            this.parejasTotales = parseInt(this.inputCartas.value);
             this.vJugar.classList.toggle('abrir',false);
+            mM.actualizar();
         }
     }
 
@@ -489,16 +518,34 @@ class ManagerGame{
         mC.crearCartas(6);
         mV.inicializarVidas(6);
         mT.inicializarTiempo(120);
+        this.parejasTotales = 6;
+
         this.vJugar.classList.toggle('abrir',false);
+        mM.actualizar();
+    }
+
+    acierto(){
+        this.parejasActuales ++;
+        if(this.parejasActuales >= this.parejasTotales){
+            this.ganar();
+        }
+        this.aciertos++;
+        mM.actualizar();
+    }
+
+    fallo(){
+        this.fallos ++;
+        mM.actualizar();
     }
 
 }
+
 
 const mC = new ManagerCartas();
 const mV = new ManagerVidas();
 const mT = new ManagerTemporizador();
 const mG = new ManagerGame();
-
+const mM = new ManagerMarcador();
 mG.prepararJuego();
 
 

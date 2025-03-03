@@ -1,21 +1,21 @@
 :root{
-    --colorFondoMain: #774A8E;
+    --colorFondoMain: #1c2a4d;
     
-    --colorFondoHeader: #8E2F5C;
-    --colorTextoHeader: #D58EB0;
+    --colorFondoHeader: #eb7c6e;
+    --colorTextoHeader: #f9f871;
 
-    --colorFondoNav: #413075;
-    --colorTextoNav: #887BAF;
+    --colorFondoNav: #ffb561;
+    --colorTextoNav: #b15678;
 
-    --colorFondoFooter: #592A71;
-    --colorTextoFooter: #9874AA;
+    --colorFondoFooter: #66406e;
+    --colorTextoFooter: #030B20;
 
-    --colorFondoVentana: #592A71;
-    --colorTextoVentana: #9874AA;
-    --colorBordeVentana: #9874AA;
+    --colorFondoVentana: #b15678;
+    --colorTextoVentana: #1c2a4d;
+    --colorBordeVentana: #66406e;
 
-    --colorFondoBoton: #592A71;
-    --colorTextoBoton: #9874AA;
+    --colorFondoBoton: #734821;
+    --colorTextoBoton: #B58860;
 
     
 }
@@ -31,6 +31,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     font-size: 1rem;
+
 }
 
 header {
@@ -53,6 +54,9 @@ nav ul {
 
 nav ul li {
     margin: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 nav ul li a {
@@ -77,6 +81,11 @@ main {
     min-height: 100vh;
     margin: 0;
     flex-direction: column;
+    background-image: url(images/b_stars2.jpg);
+    background-attachment: fixed;
+    background-repeat: repeat;
+    background-size: 30rem;
+    
 }
 
 
@@ -99,6 +108,12 @@ main {
 .panelEmergente.abrir{
     opacity: 1;
     z-index: 200;
+}
+
+.panelEmergente.cerrar{
+    opacity: 1;
+    z-index: 200;
+
 }
 
 .ventana{
@@ -131,3 +146,5 @@ main {
     color: red;
     font-weight: bold;
 }
+
+

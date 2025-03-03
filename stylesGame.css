@@ -21,8 +21,7 @@
 /* Contenedor principal de tiempo */
 #tiempo{
     font-size: 4rem;
-    height: 5rem;
-    text-align: center;
+
 }
 
 /* Estilo individual de cada carta */
@@ -33,20 +32,19 @@
 
 }
 .carta {
-
     transform-style: preserve-3d;
     width: 100%;
     height: 100%;
     border-radius: 0.7rem;
-    border: #2c3e50 0.2rem solid;
+    border: #030B20 0.2rem solid;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #2c3e50;
+
     transition:
         transform 0.3s ease,
         background-color 0.2s ease-in-out,
         box-shadow 0.3s ease-out;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5rem 1rem #030b2046;
     cursor: pointer;
     animation: aparecer 0.3s ease-in-out; 
 }
@@ -67,6 +65,7 @@
 }
 
 .carta .cara {
+    background-color: #030B20;
     border-radius: 0.7rem;
     display: flex;
     flex-direction: column; 
@@ -79,25 +78,28 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+
 }
 
 .carta .cara img {
+
     padding-top: 1rem;
-    max-height: 45%; /* Controla la altura */
-    max-width: 100%; /* Evita que sobrepase su contenedor */
-    object-fit: contain; /* Evita distorsión */
+    max-height: 45%; 
+    max-width: 100%; 
+    object-fit: contain;
 
 }
 
 /* estilo al pasar el raton por encima*/
 .carta:hover {
     transform: scale(1.15);
-    background-color: #f0f0f0;
+    border-color: cyan;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
 
 /* Estilo de cada carta SELECIONADA/REVELADA */
 .carta.seleccionada {
+    border-color: white;
     transform: scale(1.1); 
 }
 
@@ -127,6 +129,12 @@
     display: flex;
     animation: rebote 0.8s ease-in;
 
+}
+
+.score{
+    font-size: 2rem;
+    height: 5rem;
+    text-align: center;
 }
 
 /* Animacon de aparecer */
