@@ -177,6 +177,7 @@ class ManagerCartas {
         this.cartaA = null;
         this.cartaB = null;
         this.tiempoPareja = 10;
+        this.puntosPareja = 100;
         this.listaCartas = [];
         this.contenedor = document.getElementById('contenedorCartas');
     }
@@ -284,6 +285,7 @@ class ManagerCartas {
                 this.parejasActuales++;
                 this.cartaA = null;
                 this.cartaB = null;
+                mG.anadirPuntos(this.puntosPareja);
                 mG.acierto();
             }
             else{
@@ -293,7 +295,6 @@ class ManagerCartas {
                     this.cartaB.seleccionar();
                     this.cartaA = null;
                     this.cartaB = null;
-                    mV.perderVida();
                     mG.fallo();
                     }, 1500);
             }
@@ -406,6 +407,7 @@ class ManagerTemporizador{
         this.temporizadorElement.textContent = this.tiempoRestante;
     }
 }
+
 class ManagerMarcador{
     constructor(){
         this.panelPuntuacion = document.getElementById("puntuacion");
@@ -514,6 +516,10 @@ class ManagerGame{
         }
     }
 
+    anadirPuntos(cantidad){
+        this.puntuacion += cantidad;
+    }
+
     empezarJuegoPorDefecto(){
         mC.crearCartas(6);
         mV.inicializarVidas(6);
@@ -536,6 +542,7 @@ class ManagerGame{
     fallo(){
         this.fallos ++;
         mM.actualizar();
+        mV.perderVida();
     }
 
 }
