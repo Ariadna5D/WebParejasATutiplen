@@ -394,7 +394,6 @@ class ManagerTemporizador{
         if (segundos<10) {
             segundos = '0' + segundos;
         }
-
         if(tiempo <= 0){
             mG.perder();
         }
@@ -424,8 +423,9 @@ class ManagerInterfaz{
         Array.from(document.getElementsByTagName("nav")).forEach(element => this.elementosTema.push(element));
         Array.from(document.getElementsByTagName("main")).forEach(element => this.elementosTema.push(element));
         Array.from(document.getElementsByTagName("footer")).forEach(element => this.elementosTema.push(element));
+        Array.from(document.getElementsByTagName("button")).forEach(element => this.elementosTema.push(element));
+        Array.from(document.getElementsByClassName("ventana")).forEach(element => this.elementosTema.push(element));
         
-
         document.getElementById("botonTema").addEventListener("click", () => this.cambiarModoDiaNoche())
     }
 
@@ -438,7 +438,7 @@ class ManagerInterfaz{
     }
 
     cambiarModoDiaNoche(){
-        this.elementosTema.forEach(element => element.classList.toggle("night"));
+        this.elementosTema.forEach(element => element.classList.toggle("light"));
     }
 }
 /*  
@@ -473,28 +473,31 @@ class ManagerGame{
 
         this.botonEmpezar.addEventListener("click", () => this.empezarJuego());
         this.botonEmpezarPredefinida.addEventListener("click", () => this.empezarJuegoPorDefecto());
-        document.getElementById("botonReinicio").addEventListener("click", () => this.prepararJuego());
-
-
-
+        document.getElementById("botonReinicio").addEventListener("click", () => this.reiniciar());
 
     }
 
     ganar(){
-        console.log("HAS GANADO!")
+        console.log("HAS GANADO!");
         mT.detenerTemporizador();
-        this.vGanar.classList.toggle('abrir')
+        this.vGanar.classList.toggle('abrir');
+        window.open("index.html", "_blank");
     }
 
     perder(){
         console.log("HAS PERDIDO!")
         mT.detenerTemporizador();
-        mC.listaCartas.forEach(carta => carta.bloquear())
-        this.vPerder.classList.toggle('abrir')
+        mC.listaCartas.forEach(carta => carta.bloquear());
+        this.vPerder.classList.toggle('abrir');
+        window.open("index.html", "_blank");
+    }
+
+    reiniciar(){
+        mT.detenerTemporizador();
+        this.prepararJuego();
     }
 
     prepararJuego(){
-        mT.detenerTemporizador();
         this.vGanar.classList.toggle('abrir',false);
         this.vPerder.classList.toggle('abrir',false);
         this.vJugar.classList.toggle('abrir',true);

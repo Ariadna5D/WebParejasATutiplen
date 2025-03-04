@@ -1,40 +1,32 @@
 :root{
-    --colorFondoMain: #1c2a4d;
+    --colorFondoMain: #0d1b2a;
+    --colorFondoHeader: #432371;
+    --colorTextoHeader: #f4e04d;
+    --colorFondoNav: #69306d;
+    --colorTextoNav: #f2a365;
+    --colorFondoFooter: #1a1a40;
+    --colorTextoFooter: #d3d3d3;
+    --colorFondoVentana: #311d3f;
+    --colorTextoVentana: #e6e6e6;
+    --colorBordeVentana: #8a4fff;
+    --colorFondoBoton: #ff6b6b;
+    --colorTextoBoton: #fff3b0;
+    --colorBordeBoton: #d65db1;
     
-    --colorFondoHeader: #eb7c6e;
-    --colorTextoHeader: #f9f871;
+    --colorFondoMainLight: #e3f2fd;
+    --colorFondoHeaderLight: #fdd835;
+    --colorTextoHeaderLight: #4e342e;
+    --colorFondoNavLight: #ffcc80;
+    --colorTextoNavLight: #5d4037;
+    --colorFondoFooterLight: #90caf9;
+    --colorTextoFooterLight: #1a237e;
+    --colorFondoVentanaLight: #ffffff;
+    --colorTextoVentanaLight: #37474f;
+    --colorBordeVentanaLight: #ff9800;
+    --colorFondoBotonLight: #ff7043;
+    --colorTextoBotonLight: #ffffff;
+    --colorBordeBotonLight: #f57c00;
 
-    --colorFondoNav: #ffb561;
-    --colorTextoNav: #b15678;
-
-    --colorFondoFooter: #66406e;
-    --colorTextoFooter: #030B20;
-
-    --colorFondoVentana: #b15678;
-    --colorTextoVentana: #1c2a4d;
-    --colorBordeVentana: #66406e;
-
-    --colorFondoBoton: #734821;
-    --colorTextoBoton: #B58860;
-    
-    
-    --colorFondoMainNight: #1c2a4d;
-    
-    --colorFondoHeaderNight: #eb7c6e;
-    --colorTextoHeaderNight: #f9f871;
-
-    --colorFondoNavNight: #ffb561;
-    --colorTextoNavNight: #b15678;
-
-    --colorFondoFooterNight: #66406e;
-    --colorTextoFooterNight: #030B20;
-
-    --colorFondoVentanaNight: #b15678;
-    --colorTextoVentanaNight: #1c2a4d;
-    --colorBordeVentanaNight: #66406e;
-
-    --colorFondoBotonNight: #734821;
-    --colorTextoBotonNight: #B58860;
 }
 
 * {
@@ -105,28 +97,45 @@ main {
     
 }
 
-header.night{
-    background-color: var(--colorFondoHeader);
-    color: var(--colorTextoHeader);
+button{
+    background-color: var(--colorFondoBoton);
+    color: var(--colorTextoBoton);
+    border: var(--colorBordeBoton) 0.1rem solid;
+    border-radius: 0.3rem;
+    height: 50%;
+    width: 50%;
+    min-width: 5rem;
 }
 
-nav.night{
-    color: var(--colorTextoNav);
+button.light{
+    background-color: var(--colorFondoBotonLight);
+    color: var(--colorTextoBotonLight);
+    border-color: var(--colorBordeBotonLight);
+    
 }
 
-nav ul li.night p {
-    color: var(--colorTextoNav);
+header.light{
+    background-color: var(--colorFondoHeaderLight);
+    color: var(--colorTextoHeaderLight);
+}
+
+nav.light {
+    background-color: var(--colorFondoNavLight);
+}
+
+nav ul li.light p {
+    color: var(--colorTextoNavLight);
 
 }
 
-footer.night {
-    background-color: var(--colorFondoFooter);
-    color: var(--colorTextoFooter);
+footer.light {
+    background-color: var(--colorFondoFooterLight);
+    color: var(--colorTextoFooterLight);
 
 }
 
-main.night {
-    background-color: var(--colorFondoMain);
+main.light {
+    background-color: var(--colorFondoMainLight);
     background-image: url(images/b_sky.jpg);
 
 }
@@ -171,10 +180,14 @@ main.night {
     text-align: center;
     width: 35rem;
     border-radius: 1rem;
-
-    
+   
 }
 
+.ventana.light{
+    background-color: var(--colorFondoVentanaLight);
+    border: var(--colorBordeVentanaLight) 0.2rem solid;
+    color: var(--colorTextoVentanaLight);
+}
 .ventana p{
     margin-top: 1rem;
 }
@@ -183,11 +196,13 @@ main.night {
     margin-inline: 3rem;
     height: 2rem;
 }
+
 .ventana button{
     margin-inline: 30%;
     margin-top: 1rem;
     height: 2rem;
 }
+
 .alerta{
     color: red;
     font-weight: bold;
@@ -199,6 +214,15 @@ main.night {
     text-align: center;
 }
 
+@media (max-width: 750px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
 
+    nav ul li {
+        margin: 0.5rem 0;
+    }
+}
 
 
