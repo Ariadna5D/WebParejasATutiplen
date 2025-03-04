@@ -45,7 +45,7 @@
         transform 0.3s ease,
         background-color 0.2s ease-in-out,
         box-shadow 0.3s ease-out;
-    box-shadow: 0 0.5rem 1rem #030b2046;
+    box-shadow: 0 0.5rem 1rem #030b2054;
     cursor: pointer;
     animation: aparecer 0.3s ease-in-out; 
 }
@@ -95,7 +95,7 @@
 .carta:hover {
     transform: scale(1.15);
     border-color: cyan;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.404);
 }
 
 /* Estilo de cada carta SELECIONADA/REVELADA */
@@ -122,6 +122,7 @@
     margin: 1rem;
     display: flex;
     animation: balanceo ease-in-out 1s infinite alternate; 
+    filter: drop-shadow(rgba(12, 12, 26, 0.678) 0.5rem 0.5rem 10px);
 
 }
 

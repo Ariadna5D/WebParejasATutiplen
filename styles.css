@@ -12,7 +12,9 @@
     --colorFondoBoton: #ff6b6b;
     --colorTextoBoton: #fff3b0;
     --colorBordeBoton: #d65db1;
-    
+    --colorBotonPresionado: #d45d8a; 
+    --colorBotonHover: #ff8a8a; 
+
     --colorFondoMainLight: #e3f2fd;
     --colorFondoHeaderLight: #fdd835;
     --colorTextoHeaderLight: #4e342e;
@@ -26,7 +28,10 @@
     --colorFondoBotonLight: #ff7043;
     --colorTextoBotonLight: #ffffff;
     --colorBordeBotonLight: #f57c00;
+    --colorBotonPresionadoLight: #ef6c00; 
+    --colorBotonHoverLight: #ffab40; 
 
+    --tiempoCambioTema: 0.3s;
 }
 
 * {
@@ -40,6 +45,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     font-size: 1rem;
+    
 
 }
 
@@ -48,9 +54,11 @@ header {
     color: var(--colorTextoHeader);
     padding: 1.5rem;
     text-align: center;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 nav {
+    transition: background-color 0.3s, color 0.3s;
     background-color: var(--colorFondoNav);
     padding: 0.5rem;
 }
@@ -72,6 +80,7 @@ nav ul li p {
     color: var(--colorTextoNav);
     text-decoration: none;
     font-weight: bold;
+    
 }
 
 footer {
@@ -80,6 +89,7 @@ footer {
     text-align: center;
     padding: 0.625rem;
     margin-top: auto;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 main {
@@ -94,6 +104,7 @@ main {
     background-attachment: fixed;
     background-repeat: repeat;
     background-size: 30rem;
+    transition: background-image 0.3s;
     
 }
 
@@ -104,7 +115,19 @@ button{
     border-radius: 0.3rem;
     height: 50%;
     width: 50%;
-    min-width: 5rem;
+    min-width: 6rem;
+    min-height: 2rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+    background-color: var(--colorBotonHover); 
+    border-width: 0.2rem;
+}
+
+button:active {
+    background-color: var(--colorBotonPresionado); 
+    
 }
 
 button.light{
@@ -112,6 +135,13 @@ button.light{
     color: var(--colorTextoBotonLight);
     border-color: var(--colorBordeBotonLight);
     
+}
+button.light:hover {
+    background-color: var(--colorBotonHoverLight); 
+}
+
+button.light:active {
+    background-color: var(--colorBotonPresionadoLight); 
 }
 
 header.light{
