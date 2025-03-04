@@ -16,8 +16,25 @@
 
     --colorFondoBoton: #734821;
     --colorTextoBoton: #B58860;
-
     
+    
+    --colorFondoMainNight: #1c2a4d;
+    
+    --colorFondoHeaderNight: #eb7c6e;
+    --colorTextoHeaderNight: #f9f871;
+
+    --colorFondoNavNight: #ffb561;
+    --colorTextoNavNight: #b15678;
+
+    --colorFondoFooterNight: #66406e;
+    --colorTextoFooterNight: #030B20;
+
+    --colorFondoVentanaNight: #b15678;
+    --colorTextoVentanaNight: #1c2a4d;
+    --colorBordeVentanaNight: #66406e;
+
+    --colorFondoBotonNight: #734821;
+    --colorTextoBotonNight: #B58860;
 }
 
 * {
@@ -59,7 +76,7 @@ nav ul li {
     align-items: center;
 }
 
-nav ul li a {
+nav ul li p {
     color: var(--colorTextoNav);
     text-decoration: none;
     font-weight: bold;
@@ -88,6 +105,32 @@ main {
     
 }
 
+header.night{
+    background-color: var(--colorFondoHeader);
+    color: var(--colorTextoHeader);
+}
+
+nav.night{
+    color: var(--colorTextoNav);
+}
+
+nav ul li.night p {
+    color: var(--colorTextoNav);
+
+}
+
+footer.night {
+    background-color: var(--colorFondoFooter);
+    color: var(--colorTextoFooter);
+
+}
+
+main.night {
+    background-color: var(--colorFondoMain);
+    background-image: url(images/b_sky.jpg);
+
+}
+
 
 /* https://youtu.be/r_PL0K2fGkY?feature=shared */
 /* Esta es la base para que se vea sin entorpecer al resto del DOM */
@@ -97,7 +140,7 @@ main {
     bottom: 0;
     right: 0;
     left: 0;
-    animation: aparecer 3s ease-in-out;
+    
     z-index: -1;
 
     display: flex;
@@ -108,6 +151,8 @@ main {
 .panelEmergente.abrir{
     opacity: 1;
     z-index: 200;
+    animation: aparecer 1s ease-in-out;
+    
 }
 
 .panelEmergente.cerrar{
@@ -126,6 +171,7 @@ main {
     text-align: center;
     width: 35rem;
     border-radius: 1rem;
+
     
 }
 
@@ -146,5 +192,13 @@ main {
     color: red;
     font-weight: bold;
 }
+
+.score{
+    font-size: 2rem;
+    height: 5rem;
+    text-align: center;
+}
+
+
 
 

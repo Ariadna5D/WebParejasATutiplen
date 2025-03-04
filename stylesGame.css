@@ -131,11 +131,7 @@
 
 }
 
-.score{
-    font-size: 2rem;
-    height: 5rem;
-    text-align: center;
-}
+
 
 /* Animacon de aparecer */
 @keyframes aparecer {

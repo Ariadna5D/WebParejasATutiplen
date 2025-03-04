@@ -395,6 +395,10 @@ class ManagerTemporizador{
             segundos = '0' + segundos;
         }
 
+        if(tiempo <= 0){
+            mG.perder();
+        }
+
         this.temporizadorElement.textContent = `${ minutos}:${segundos}`;
     }
 
@@ -408,11 +412,21 @@ class ManagerTemporizador{
     }
 }
 
-class ManagerMarcador{
+class ManagerInterfaz{
     constructor(){
         this.panelPuntuacion = document.getElementById("puntuacion");
         this.panelDescubiertas = document.getElementById("descubiertas");
         this.panelAciertos = document.getElementById("aciertos");
+
+        this.elementosTema = [];
+        Array.from(document.getElementsByTagName("li")).forEach(element => this.elementosTema.push(element));
+        Array.from(document.getElementsByTagName("header")).forEach(element => this.elementosTema.push(element));
+        Array.from(document.getElementsByTagName("nav")).forEach(element => this.elementosTema.push(element));
+        Array.from(document.getElementsByTagName("main")).forEach(element => this.elementosTema.push(element));
+        Array.from(document.getElementsByTagName("footer")).forEach(element => this.elementosTema.push(element));
+        
+
+        document.getElementById("botonTema").addEventListener("click", () => this.cambiarModoDiaNoche())
     }
 
     actualizar(){
@@ -421,6 +435,10 @@ class ManagerMarcador{
         this.panelAciertos.textContent = (mG.aciertos + mG.fallos === 0) 
     ? "0%" 
     : Math.round(mG.aciertos / (mG.fallos + mG.aciertos) * 100) + "%";
+    }
+
+    cambiarModoDiaNoche(){
+        this.elementosTema.forEach(element => element.classList.toggle("night"));
     }
 }
 /*  
@@ -455,6 +473,11 @@ class ManagerGame{
 
         this.botonEmpezar.addEventListener("click", () => this.empezarJuego());
         this.botonEmpezarPredefinida.addEventListener("click", () => this.empezarJuegoPorDefecto());
+        document.getElementById("botonReinicio").addEventListener("click", () => this.prepararJuego());
+
+
+
+
     }
 
     ganar(){
@@ -471,6 +494,7 @@ class ManagerGame{
     }
 
     prepararJuego(){
+        mT.detenerTemporizador();
         this.vGanar.classList.toggle('abrir',false);
         this.vPerder.classList.toggle('abrir',false);
         this.vJugar.classList.toggle('abrir',true);
@@ -512,7 +536,7 @@ class ManagerGame{
             mT.inicializarTiempo(parseInt(this.inputTiempo.value));
             this.parejasTotales = parseInt(this.inputCartas.value);
             this.vJugar.classList.toggle('abrir',false);
-            mM.actualizar();
+            mI.actualizar();
         }
     }
 
@@ -527,7 +551,7 @@ class ManagerGame{
         this.parejasTotales = 6;
 
         this.vJugar.classList.toggle('abrir',false);
-        mM.actualizar();
+        mI.actualizar();
     }
 
     acierto(){
@@ -536,12 +560,12 @@ class ManagerGame{
             this.ganar();
         }
         this.aciertos++;
-        mM.actualizar();
+        mI.actualizar();
     }
 
     fallo(){
         this.fallos ++;
-        mM.actualizar();
+        mI.actualizar();
         mV.perderVida();
     }
 
@@ -552,7 +576,7 @@ const mC = new ManagerCartas();
 const mV = new ManagerVidas();
 const mT = new ManagerTemporizador();
 const mG = new ManagerGame();
-const mM = new ManagerMarcador();
+const mI = new ManagerInterfaz();
 mG.prepararJuego();
 
 
