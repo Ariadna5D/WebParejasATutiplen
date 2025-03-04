@@ -18,19 +18,19 @@ function getIcon(num){
     switch (num){
         case 0: image = null;
             break;
-        case 1: image = 'images/i_fire.png';
+        case 1: image = 'images/i_runa1.png';
             break;
-        case 2: image = 'images/i_flower.png';
+        case 2: image = 'images/i_runa3.png';
             break;
-        case 3: image = 'images/i_diamond.png';
+        case 3: image = 'images/i_runa5.png';
             break;
-        case 4: image = 'images/i_heart.png';
+        case 4: image = 'images/i_runa7.png';
             break;
-        case 5: image = 'images/i_sparkle.png';
+        case 5: image = 'images/i_runa2.png';
             break;
-        case 6: image = 'images/i_star.png';
+        case 6: image = 'images/i_runa4.png';
             break;
-        default: image = 'images/i_fire.png';
+        default: image = 'images/i_runa6.png';
             break;
     }
 
@@ -147,7 +147,7 @@ class Vida {
     */    
     constructor() {
         this.elemento = document.createElement('img');
-        this.elemento.src = 'images/corazon.png';
+        this.elemento.src = 'images/corazon2.png';
         this.elemento.classList.add('vida');
     }
 
@@ -323,9 +323,11 @@ class ManagerVidas{
         const cantidad = num;
 
         for (let i = 0; i < cantidad; i++) {
-            let vida = new Vida();
-            this.vidas.push(vida);
-            this.contenedorVidas.appendChild(vida.elemento);
+            setTimeout(() => {
+                let vida = new Vida();
+                this.vidas.push(vida);
+                this.contenedorVidas.appendChild(vida.elemento);
+            }, i * 150); 
         }
     }
 

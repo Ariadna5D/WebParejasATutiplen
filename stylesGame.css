@@ -85,7 +85,7 @@
 .carta .cara img {
 
     padding-top: 1rem;
-    max-height: 45%; 
+    max-height: 50%; 
     max-width: 100%; 
     object-fit: contain;
 
@@ -118,10 +118,10 @@
 
 /* Corazones de vidas */
 .vida{
-    height: 4rem;
+    height: 5rem;
     margin: 1rem;
     display: flex;
-    animation: balanceo ease-in-out 1s infinite alternate; 
+    animation: balanceo ease-in-out 2s infinite alternate; 
     filter: drop-shadow(rgba(12, 12, 26, 0.678) 0.5rem 0.5rem 10px);
 
 }
