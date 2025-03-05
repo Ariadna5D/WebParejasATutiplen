@@ -108,7 +108,6 @@ class Carta {
     desbloquear(){
         this.estaBloqueada = false;
         this.objetoCarta.classList.remove('bloqueada');
-        console.log(this.objetoCarta.className);
     }
 
     bloquear() {
@@ -269,7 +268,6 @@ class ManagerCartas {
         else if (this.cartaA === null){ 
             this.cartaA = carta;
             carta.seleccionar();
-            console.log(carta);
         } 
         else if (this.cartaB === null) {
             this.cartaB = carta;
@@ -369,18 +367,22 @@ class ManagerTemporizador{
     }
     
     iniciarTemporizador() {
+        console.log("pepe")
         
-        // Actualizar el temporizador cada segundo
-        this.intervalo = setInterval(() => {
-            this.tiempoRestante--; 
+        if(mG.estaElJuegoActivo === true){
+            // Actualizar el temporizador cada segundo
+            this.intervalo = setInterval(() => {
+                this.tiempoRestante--; 
 
-            this.actualizarTemporizador(this.tiempoRestante)
+                this.actualizarTemporizador(this.tiempoRestante)
 
-            // Verificar si el tiempo llegó a cero
-            if (this.tiempoRestante <= 0) {
-                mG.perder();
-            }
-        }, 1000);
+                // Verificar si el tiempo llegó a cero
+                if (this.tiempoRestante <= 0) {
+                    mG.perder();
+                }
+            }, 1000);
+        }
+
 
 
     }
@@ -413,36 +415,6 @@ class ManagerTemporizador{
     }
 }
 
-class ManagerInterfaz{
-    constructor(){
-        this.panelPuntuacion = document.getElementById("puntuacion");
-        this.panelDescubiertas = document.getElementById("descubiertas");
-        this.panelAciertos = document.getElementById("aciertos");
-
-        this.elementosTema = [];
-        Array.from(document.getElementsByTagName("li")).forEach(element => this.elementosTema.push(element));
-        Array.from(document.getElementsByTagName("header")).forEach(element => this.elementosTema.push(element));
-        Array.from(document.getElementsByTagName("nav")).forEach(element => this.elementosTema.push(element));
-        Array.from(document.getElementsByTagName("main")).forEach(element => this.elementosTema.push(element));
-        Array.from(document.getElementsByTagName("footer")).forEach(element => this.elementosTema.push(element));
-        Array.from(document.getElementsByTagName("button")).forEach(element => this.elementosTema.push(element));
-        Array.from(document.getElementsByClassName("ventana")).forEach(element => this.elementosTema.push(element));
-        
-        document.getElementById("botonTema").addEventListener("click", () => this.cambiarModoDiaNoche())
-    }
-
-    actualizar(){
-        this.panelPuntuacion.textContent = mG.puntuacion;
-        this.panelDescubiertas.textContent = mG.parejasActuales + "/" + mG.parejasTotales;
-        this.panelAciertos.textContent = (mG.aciertos + mG.fallos === 0) 
-    ? "0%" 
-    : Math.round(mG.aciertos / (mG.fallos + mG.aciertos) * 100) + "%";
-    }
-
-    cambiarModoDiaNoche(){
-        this.elementosTema.forEach(element => element.classList.toggle("light"));
-    }
-}
 /*  
     /// MANAGER DE JUEGO ///
     Se encarga de:
@@ -477,6 +449,16 @@ class ManagerGame{
         this.botonEmpezarPredefinida.addEventListener("click", () => this.empezarJuegoPorDefecto());
         document.getElementById("botonReinicio").addEventListener("click", () => this.reiniciar());
 
+        this.panelPuntuacion = document.getElementById("puntuacion");
+        this.panelDescubiertas = document.getElementById("descubiertas");
+        this.panelAciertos = document.getElementById("aciertos");
+
+        this.panelesAciertosFinal = document.getElementsByClassName("scoreAciertoFinal")
+        this.panelesTiempoFinal = document.getElementsByClassName("scoreTiempoFinal");
+        this.panelesPuntuacionFinal = document.getElementsByClassName("scorePuntuacionFinal");
+
+        let estaElJuegoActivo = false;
+
     }
 
     ganar(){
@@ -484,6 +466,7 @@ class ManagerGame{
         mT.detenerTemporizador();
         this.vGanar.classList.toggle('abrir');
         window.open("index.html", "_blank");
+        this.estaElJuegoActivo = false;
     }
 
     perder(){
@@ -492,11 +475,14 @@ class ManagerGame{
         mC.listaCartas.forEach(carta => carta.bloquear());
         this.vPerder.classList.toggle('abrir');
         window.open("index.html", "_blank");
+        this.estaElJuegoActivo = false;
     }
 
     reiniciar(){
+        console.log("Patata");
         mT.detenerTemporizador();
         this.prepararJuego();
+        this.estaElJuegoActivo = false;
     }
 
     prepararJuego(){
@@ -541,7 +527,8 @@ class ManagerGame{
             mT.inicializarTiempo(parseInt(this.inputTiempo.value));
             this.parejasTotales = parseInt(this.inputCartas.value);
             this.vJugar.classList.toggle('abrir',false);
-            mI.actualizar();
+            this.actualizar();
+            this.estaElJuegoActivo= true;
         }
     }
 
@@ -556,7 +543,8 @@ class ManagerGame{
         this.parejasTotales = 6;
 
         this.vJugar.classList.toggle('abrir',false);
-        mI.actualizar();
+        this.actualizar();
+        this.estaElJuegoActivo= true;
     }
 
     acierto(){
@@ -565,13 +553,25 @@ class ManagerGame{
             this.ganar();
         }
         this.aciertos++;
-        mI.actualizar();
+        this.actualizar();
     }
 
     fallo(){
         this.fallos ++;
-        mI.actualizar();
+        this.actualizar();
         mV.perderVida();
+    }
+
+    actualizar(){
+        this.panelPuntuacion.textContent = mG.puntuacion;
+        this.panelDescubiertas.textContent = mG.parejasActuales + "/" + mG.parejasTotales;
+        this.panelAciertos.textContent = (mG.aciertos + mG.fallos === 0) 
+    ? "0%" 
+    : Math.round(mG.aciertos / (mG.fallos + mG.aciertos) * 100) + "%";
+    }
+
+    actualizarPantallaFinPartida(haGanado){
+
     }
 
 }
@@ -581,7 +581,6 @@ const mC = new ManagerCartas();
 const mV = new ManagerVidas();
 const mT = new ManagerTemporizador();
 const mG = new ManagerGame();
-const mI = new ManagerInterfaz();
 mG.prepararJuego();
 
 
