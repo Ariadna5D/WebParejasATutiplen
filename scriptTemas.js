@@ -11,10 +11,18 @@ constructor(){
     Array.from(document.getElementsByClassName("ventana")).forEach(element => this.elementosTema.push(element));
     
     document.getElementById("botonTema").addEventListener("click", () => this.cambiarModoDiaNoche())
+    this.modoOscuroActivo = true;
+
+    if(localStorage.getItem("temaOscuro") === "false"){
+        this.cambiarModoDiaNoche();
+    }
 }
 
 cambiarModoDiaNoche(){
     this.elementosTema.forEach(element => element.classList.toggle("light"));
+    this.modoOscuroActivo = !this.modoOscuroActivo;
+    console.log(this.modoOscuroActivo)
+    localStorage.setItem("temaOscuro", this.modoOscuroActivo);
 }
 
 }

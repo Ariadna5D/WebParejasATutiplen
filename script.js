@@ -488,6 +488,8 @@ class ManagerGame{
 
     perder(){
         console.log("HAS PERDIDO!");
+        mC.listaCartas.forEach(carta => carta.bloquear());
+        this.vPerder.classList.toggle('abrir');
         this.cerrarPartida();
         window.open("derrota.html", "_blank");
     }
@@ -495,13 +497,12 @@ class ManagerGame{
     cerrarPartida(){
 
         mT.detenerTemporizador();
-        mC.listaCartas.forEach(carta => carta.bloquear());
-        this.vPerder.classList.toggle('abrir');
         this.estaElJuegoActivo = false;
         this.actualizarPantallaFinPartida();
         localStorage.setItem("puntuacion", this.puntuacion);
         localStorage.setItem("tiempo", mT.temporizadorElement.textContent);
         localStorage.setItem("aciertos", this.panelAciertos.textContent);
+        
     }
 
     reiniciar(){

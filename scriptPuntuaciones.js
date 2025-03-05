@@ -10,6 +10,9 @@ panelPuntuacion.textContent = localStorage.getItem("puntuacion");
 panelAciertos.textContent = localStorage.getItem("aciertos");
 panelTiempo.textContent = localStorage.getItem("tiempo");
 
+
+
+
 function volverALaPaginaInicio(){
 
     window.open("index.html", "_self");
