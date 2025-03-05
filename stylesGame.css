@@ -47,9 +47,16 @@
         box-shadow 0.3s ease-out;
     box-shadow: 0 0.5rem 1rem #030b2054;
     cursor: pointer;
-    animation: aparecer 0.3s ease-in-out; 
+
 }
 
+.carta.fallo{
+    animation: balanceoAmplio ease-in-out 0.2s;
+}
+
+.carta.aparecer{
+    animation: aparecer 0.3s ease-in-out; 
+}
 .carta img {
     width: 100%;
     height: 100%;
@@ -121,7 +128,7 @@
     height: 5rem;
     margin: 1rem;
     display: flex;
-    animation: balanceo ease-in-out 2s infinite alternate; 
+    animation: balanceo ease-in-out 2.5s infinite alternate, flotar ease-in-out 1.5s infinite alternate; 
     filter: drop-shadow(rgba(12, 12, 26, 0.678) 0.5rem 0.5rem 10px);
 
 }
@@ -152,6 +159,26 @@
         rotate: -15deg;}
     100% {
         rotate: 15deg;}
+}
+
+@keyframes balanceoAmplio {
+    0% {
+        rotate: 0deg;}
+    25% {
+        rotate: 10deg;}
+    50% {
+        rotate: 0deg;}
+    75% {
+        rotate: -10deg;}
+    100% {
+        rotate: 0deg;}
+}
+
+@keyframes flotar {
+    0% {
+        transform: translateY(0rem)}
+    100% {
+        transform: translateY(1rem)}
 }
 
 @keyframes rebote {

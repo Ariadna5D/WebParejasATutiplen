@@ -129,6 +129,21 @@ class Carta {
             this.cartaDorso.style.display = 'block'; // Mostrar el dorso
         }
     }
+
+    feedbackFallo(){
+        this.objetoCarta.classList.toggle('fallo',true)
+        setInterval(() => {
+            this.objetoCarta.classList.toggle('fallo',false)
+        }, 200);
+        
+    }
+
+    feedbackAparecer(){
+        this.objetoCarta.classList.toggle('aparecer',true)
+        setInterval(() => {
+            this.objetoCarta.classList.toggle('aparecer',false)
+        }, 1000);
+    }
 }
 
 /*  
@@ -222,6 +237,7 @@ class ManagerCartas {
                 espacioCarta.appendChild(this.listaCartas[i].objetoCarta);
                 this.contenedor.appendChild(espacioCarta)
                 this.listaCartas[i].bloquear();
+                this.listaCartas[i].feedbackAparecer();
             
             }, i * 100); 
         }
@@ -291,6 +307,8 @@ class ManagerCartas {
                 setTimeout(() => {
                     this.cartaA.seleccionar();
                     this.cartaB.seleccionar();
+                    this.cartaA.feedbackFallo();
+                    this.cartaB.feedbackFallo();
                     this.cartaA = null;
                     this.cartaB = null;
                     mG.fallo();
@@ -367,7 +385,6 @@ class ManagerTemporizador{
     }
     
     iniciarTemporizador() {
-        console.log("pepe")
         
         if(mG.estaElJuegoActivo === true){
             // Actualizar el temporizador cada segundo
@@ -407,11 +424,12 @@ class ManagerTemporizador{
 
     detenerTemporizador() {
         clearInterval(this.intervalo); // Detener el intervalo
+        
     }
 
     anadirTiempo(tiempo){
         this.tiempoRestante += tiempo;
-        this.temporizadorElement.textContent = this.tiempoRestante;
+        this.actualizarTemporizador(this.tiempoRestante)
     }
 }
 
@@ -453,7 +471,7 @@ class ManagerGame{
         this.panelDescubiertas = document.getElementById("descubiertas");
         this.panelAciertos = document.getElementById("aciertos");
 
-        this.panelesAciertosFinal = document.getElementsByClassName("scoreAciertoFinal")
+        this.panelesAciertosFinal = document.getElementsByClassName("scoreAciertosFinal")
         this.panelesTiempoFinal = document.getElementsByClassName("scoreTiempoFinal");
         this.panelesPuntuacionFinal = document.getElementsByClassName("scorePuntuacionFinal");
 
@@ -463,23 +481,30 @@ class ManagerGame{
 
     ganar(){
         console.log("HAS GANADO!");
-        mT.detenerTemporizador();
         this.vGanar.classList.toggle('abrir');
-        window.open("index.html", "_blank");
-        this.estaElJuegoActivo = false;
+        this.cerrarPartida();
+        window.open("victoria.html", "_blank");
     }
 
     perder(){
-        console.log("HAS PERDIDO!")
+        console.log("HAS PERDIDO!");
+        this.cerrarPartida();
+        window.open("derrota.html", "_blank");
+    }
+
+    cerrarPartida(){
+
         mT.detenerTemporizador();
         mC.listaCartas.forEach(carta => carta.bloquear());
         this.vPerder.classList.toggle('abrir');
-        window.open("index.html", "_blank");
         this.estaElJuegoActivo = false;
+        this.actualizarPantallaFinPartida();
+        localStorage.setItem("puntuacion", this.puntuacion);
+        localStorage.setItem("tiempo", mT.temporizadorElement.textContent);
+        localStorage.setItem("aciertos", this.panelAciertos.textContent);
     }
 
     reiniciar(){
-        console.log("Patata");
         mT.detenerTemporizador();
         this.prepararJuego();
         this.estaElJuegoActivo = false;
@@ -570,8 +595,18 @@ class ManagerGame{
     : Math.round(mG.aciertos / (mG.fallos + mG.aciertos) * 100) + "%";
     }
 
-    actualizarPantallaFinPartida(haGanado){
+    actualizarPantallaFinPartida(){
+        for (let i = 0; i < this.panelesAciertosFinal.length; i++) {
+            this.panelesAciertosFinal[i].textContent = this.panelAciertos.textContent;
+        }
 
+        for (let i = 0; i < this.panelesPuntuacionFinal.length; i++) {
+            this.panelesPuntuacionFinal[i].textContent = this.puntuacion;
+        }
+
+        for (let i = 0; i < this.panelesTiempoFinal.length; i++) {
+            this.panelesTiempoFinal[i].textContent = mT.temporizadorElement.textContent;
+        }
     }
 
 }
