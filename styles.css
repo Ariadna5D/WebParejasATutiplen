@@ -220,8 +220,12 @@ main.light {
     border: var(--colorBordeVentanaLight) 0.2rem solid;
     color: var(--colorTextoVentanaLight);
 }
-.ventana p{
+
+.ventana h3{
     margin-top: 1rem;
+}
+.ventana h2{
+    margin-bottom: 1rem;
 }
 
 .ventana input{
@@ -282,6 +286,12 @@ main.light {
 .ventana.final button{
     font-size: 2rem;
     min-height: 6rem;
+}
+
+.ventana div{
+    display: flex;
+    align-items: center;
+    text-align: left;
 }
 
 

@@ -190,7 +190,7 @@ class ManagerCartas {
     constructor() {
         this.cartaA = null;
         this.cartaB = null;
-        this.tiempoPareja = 10;
+        this.tiempoPareja = 0;
         this.puntosPareja = 100;
         this.listaCartas = [];
         this.contenedor = document.getElementById('contenedorCartas');
@@ -390,11 +390,11 @@ class ManagerTemporizador{
             // Actualizar el temporizador cada segundo
             this.intervalo = setInterval(() => {
                 this.tiempoRestante--; 
-
                 this.actualizarTemporizador(this.tiempoRestante)
 
                 // Verificar si el tiempo llegó a cero
-                if (this.tiempoRestante <= 0) {
+                if (this.tiempoRestante <= 0 && mG.estaElJuegoActivo === true) {
+                    this.tiempoRestante = 0;
                     mG.perder();
                 }
             }, 1000);
@@ -475,6 +475,9 @@ class ManagerGame{
         this.panelesTiempoFinal = document.getElementsByClassName("scoreTiempoFinal");
         this.panelesPuntuacionFinal = document.getElementsByClassName("scorePuntuacionFinal");
 
+        this.checkBoxAbrurPestana = document.getElementById("abrirPestana");
+        this.abrirPestanaAlFinalizar = false;
+
         let estaElJuegoActivo = false;
 
     }
@@ -483,15 +486,23 @@ class ManagerGame{
         console.log("HAS GANADO!");
         this.vGanar.classList.toggle('abrir');
         this.cerrarPartida();
-        window.open("victoria.html", "_blank");
+
+        if(this.abrirPestanaAlFinalizar){
+            window.open("victoria.html", "_blank");
+        }
     }
 
     perder(){
         console.log("HAS PERDIDO!");
         mC.listaCartas.forEach(carta => carta.bloquear());
         this.vPerder.classList.toggle('abrir');
+
         this.cerrarPartida();
-        window.open("derrota.html", "_blank");
+        
+        if(this.abrirPestanaAlFinalizar){
+            window.open("derrota.html", "_blank");
+        }
+        
     }
 
     cerrarPartida(){
@@ -502,6 +513,7 @@ class ManagerGame{
         localStorage.setItem("puntuacion", this.puntuacion);
         localStorage.setItem("tiempo", mT.temporizadorElement.textContent);
         localStorage.setItem("aciertos", this.panelAciertos.textContent);
+        localStorage.setItem("descubiertas", this.panelDescubiertas.textContent);
         
     }
 
@@ -555,6 +567,7 @@ class ManagerGame{
             this.vJugar.classList.toggle('abrir',false);
             this.actualizar();
             this.estaElJuegoActivo= true;
+            this.abrirPestanaAlFinalizar = this.checkBoxAbrurPestana.checked;
         }
     }
 
@@ -571,20 +584,21 @@ class ManagerGame{
         this.vJugar.classList.toggle('abrir',false);
         this.actualizar();
         this.estaElJuegoActivo= true;
+        this.abrirPestanaAlFinalizar = false;
     }
 
     acierto(){
         this.parejasActuales ++;
+        this.actualizar();
         if(this.parejasActuales >= this.parejasTotales){
             this.ganar();
         }
         this.aciertos++;
-        this.actualizar();
     }
 
     fallo(){
-        this.fallos ++;
         this.actualizar();
+        this.fallos ++;
         mV.perderVida();
     }
 

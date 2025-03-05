@@ -18,11 +18,11 @@
     <nav>
         <ul>
             <li>
-                <p>TIEMPO</p>
+                <p>TIEMPO RESTANTE</p>
                 <P id="tiempo" class="score"></P>
             </li>
             <li> 
-                <p>PUNTUACION</p>
+                <p>PUNTUACIÓN</p>
                 <P id="puntuacion" class="score"></P>
             </li>
             <li> 
@@ -42,7 +42,7 @@
         <div class="panelEmergente" id="ventanaGanar">
             <div class="ventana">
                 <h2>Has Ganado!</h2>
-                <h3>Tiempo</h3>
+                <h3>Tiempo sobrante</h3>
                 <p class="scoreTiempoFinal">10%</p>
                 <h3>Aciertos</h3>
                 <p class="scoreAciertosFinal">10%</p>
@@ -54,6 +54,8 @@
         <div class="panelEmergente" id="ventanaPerder">
             <div class="ventana">
                 <h2>Has Perdido!</h2>
+                <h3>Tiempo sobrante</h3>
+                <p class="scoreTiempoFinal">10%</p>
                 <h3>Aciertos</h3>
                 <p class="scoreAciertosFinal">10%</p>
                 <h3>Puntuación</h3>
@@ -64,18 +66,24 @@
         <div class="panelEmergente" id="ventanaEmpezar">
             <div class="ventana">
                 <h2>Opciones de Juego</h2>
-                <p>Dime cuantas vidas quieres</p>
+                <p>Número de vidas</p>
                 <p class="alerta" id="alertaVidas"> </p>
                 <input type="number" name="" id="inputVidas"><br>
 
-                <p>Dime cuantas parejas quieres</p>
+                <p>Número de parejas</p>
                 <p class="alerta" id="alertaCartas"> </p>
                 <input type="number" name="" id="inputCartas"><br>
                 
-                <p>Dime cuanto tiempo de partida quieres</p>
+                <p>Tiempo de partida (en segundos)</p>
                 <p class="alerta" id="alertaTiempo"> </p>
                 <input type="number" name="" id="inputTiempo"><br>
-
+                
+                <div>
+                    <label for="abrirPestana">¿Abrir pestaña al finalizar?</label>
+                    <input type="checkbox" id="abrirPestana">
+                </div>
+                
+                
                 <button class="" id="botonEmpezar">Jugar</button>
                 <button class="" id="botonEmpezarPredefinida">Partida Predefinida</button>
             </div>
