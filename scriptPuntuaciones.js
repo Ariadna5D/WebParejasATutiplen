@@ -8,6 +8,7 @@ const botonReinicio = document.getElementById("botonReinicio");
 botonJugar.addEventListener("click", () => volverALaPaginaInicio());
 botonReinicio.addEventListener("click", () => volverALaPaginaInicio());
 
+// Asignar valores del local Storage
 for (let i = 0; i < panelPuntuacion.length; i++) {
     panelPuntuacion[i].textContent = localStorage.getItem("puntuacion");
 }
@@ -24,8 +25,7 @@ for (let i = 0; i < panelDescubiertas.length; i++) {
     panelDescubiertas[i].textContent = localStorage.getItem("descubiertas");
 }
 
-
-
+// Para volver al inicio
 function volverALaPaginaInicio(){
 
     window.open("index.html", "_self");

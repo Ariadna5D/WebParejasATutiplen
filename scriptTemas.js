@@ -13,6 +13,7 @@ constructor(){
     document.getElementById("botonTema").addEventListener("click", () => this.cambiarModoDiaNoche())
     this.modoOscuroActivo = true;
 
+    // Para que se mantenga el tema en el que estaba
     if(localStorage.getItem("temaOscuro") === "false"){
         this.cambiarModoDiaNoche();
     }

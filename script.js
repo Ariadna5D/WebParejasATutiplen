@@ -1,3 +1,4 @@
+// Devuelve una parte de la carta
 function getCardSkin(num){
     let image = '';
     
@@ -13,6 +14,7 @@ function getCardSkin(num){
     return image;
 }
 
+// Devuelve un icono en funcion al numero que le pongas
 function getIcon(num){
     let image = '';
     switch (num){
@@ -90,14 +92,11 @@ class Carta {
         this.mostrarCarta(this.seMuestra);
     }
 
-    get contenido() {
-        return this._contenido;
-    }
-
     asignarListeners() {
         this.objetoCarta.addEventListener("click", () => mC.seleccionarCarta(this));
     }
 
+    // MOSTRAR COMO SELECCIONADA
     seleccionar() {
         //console.log(`Carta ${this.contenido} clickeada`);
         this.seMuestra = !this.seMuestra;
@@ -105,21 +104,25 @@ class Carta {
         this.mostrarCarta(this.seMuestra);
     }
 
+    // DESBLOQUEAR LA CARTA (AHORA ES CLICKABLE)
     desbloquear(){
         this.estaBloqueada = false;
         this.objetoCarta.classList.remove('bloqueada');
     }
 
+    // BLOQUEAR LA CARTA (AHORA NO ES CLICKABLE)
     bloquear() {
         this.estaBloqueada = true;
         this.objetoCarta.classList.toggle('bloqueada', this.estaBloqueada);
     }
 
+    // FUNCION PARECIDA AL COMPARE TO DE JAVA
     esIgualACarta(cartab) {
         console.log("Esta Carta es: " + this.valorCarta + " Esta otra es: " + cartab.valorCarta);
         return this.valorCarta === cartab.valorCarta;
     }
 
+    // MUESTRA LA CARTA
     mostrarCarta(mostrar) {
         if (mostrar) {
             this.cartaCara.style.display = 'block'; // Mostrar la cara
@@ -130,6 +133,7 @@ class Carta {
         }
     }
 
+    // ANIMACION DE FALLO
     feedbackFallo(){
         this.objetoCarta.classList.toggle('fallo',true)
         setInterval(() => {
@@ -138,6 +142,7 @@ class Carta {
         
     }
 
+    // ANIMACION DE APARECER
     feedbackAparecer(){
         this.objetoCarta.classList.toggle('aparecer',true)
         setInterval(() => {
@@ -165,6 +170,7 @@ class Vida {
         this.elemento.classList.add('vida');
     }
 
+    // Hace su animacion y se elimina del dom
     eliminar() {
         this.elemento.classList.add('borrar')
         setTimeout(() => {
@@ -188,10 +194,16 @@ class Vida {
 class ManagerCartas {
     
     constructor() {
+        //Carta A y carta B son las cartas que se seleccionan para hacer pareja
         this.cartaA = null;
         this.cartaB = null;
+
+        // Tiempo que se añade si se completa una pareja
         this.tiempoPareja = 0;
+        // Puntos que se añaden al completar la pareja
         this.puntosPareja = 100;
+
+        //Las cartas totales
         this.listaCartas = [];
         this.contenedor = document.getElementById('contenedorCartas');
     }
@@ -227,11 +239,9 @@ class ManagerCartas {
 
         this.barajarCartas(this.listaCartas);
 
-        //Crear las cartas con cierto retraso
+        //Crear las cartas con cierto retraso para hacer la animacion en cascada
         for (let i = 0; i < this.listaCartas.length; i++) {
             setTimeout(() => {
-                //this.listaCartas[i].objetoCarta.appendChild(this.cartaCara);
-                //this.listaCartas[i].objetoCarta.appendChild(this.cartaReverso);
                 let espacioCarta = document.createElement('div');
                 espacioCarta.classList.add("espacioCarta")
                 espacioCarta.appendChild(this.listaCartas[i].objetoCarta);
@@ -328,12 +338,15 @@ class ManagerCartas {
         - Añadir vidas
 */
 class ManagerVidas{
+    
     constructor(){
         this.vidas = [];
         this.contenedorVidas = document.getElementById('contenedorVidas');
     }
     
+    // CREA UN ARRAY DE VIDAS
     inicializarVidas(num) {
+        
         this.vidas = [];
         this.contenedorVidas.innerHTML = '';
         const cantidad = num;
@@ -347,6 +360,7 @@ class ManagerVidas{
         }
     }
 
+    // DESTRUYE LA ULTIMA VIDA DEL ARRAY
     perderVida() {
         if (this.vidas.length > 0) {
             let vida = this.vidas.pop();
@@ -357,6 +371,7 @@ class ManagerVidas{
         }
     }
 
+    // AÑADE TANTAS VIDAS COMO SE DESEE
     anadirVidas(num) {
         for (let i = 0; i < num; i++) {
             let vida = new Vida();
@@ -379,11 +394,13 @@ class ManagerTemporizador{
         this.temporizadorElement = document.getElementById('tiempo');
     }
 
+    // iNICIALIZA/PREPARA EL TEMPORIZADOR
     inicializarTiempo(num){
         this.tiempoRestante = num;
         this.actualizarTemporizador(this.tiempoRestante)
     }
     
+    // INICIA EL TEMPORIZADOR
     iniciarTemporizador() {
         
         if(mG.estaElJuegoActivo === true){
@@ -404,8 +421,10 @@ class ManagerTemporizador{
 
     }
 
+    // TRASLADAR A UI
     actualizarTemporizador(tiempo){
         
+        // En esencia esto es para cambiar el formato y que se vea adecuadamente en la UI
         let minutos = Math.floor(tiempo / 60);
         let segundos = tiempo - minutos * 60;
 
@@ -422,11 +441,13 @@ class ManagerTemporizador{
         this.temporizadorElement.textContent = `${ minutos}:${segundos}`;
     }
 
+    // DETIENE EL INTERVALO
     detenerTemporizador() {
         clearInterval(this.intervalo); // Detener el intervalo
         
     }
 
+    // AÑADE TIEMPO AL TEMPORIZADOR
     anadirTiempo(tiempo){
         this.tiempoRestante += tiempo;
         this.actualizarTemporizador(this.tiempoRestante)
@@ -439,49 +460,53 @@ class ManagerTemporizador{
         - Empezar la partida
         - Evento Ganar
         - Evento Perder
-        - 
+        - Llevar la puntuación y estadísticas
 */
 class ManagerGame{
 
     constructor(){
+        //VENTANAS
         this.vGanar = document.getElementById("ventanaGanar");
         this.vPerder = document.getElementById("ventanaPerder");
         this.vJugar = document.getElementById("ventanaEmpezar");
         this.botones = document.getElementsByClassName("botonJugar");
         
+        for (let i = 0; i < this.botones.length; i++) {
+            this.botones[i].addEventListener("click", () => this.prepararJuego());
+        }
+
+        // INPUT DE AJUSTES
         this.inputVidas = document.getElementById("inputVidas");
         this.inputCartas = document.getElementById("inputCartas");
         this.inputTiempo = document.getElementById("inputTiempo")
         this.botonEmpezar = document.getElementById("botonEmpezar");
         this.botonEmpezarPredefinida = document.getElementById("botonEmpezarPredefinida");
+        this.checkBoxAbrurPestana = document.getElementById("abrirPestana");
+        this.abrirPestanaAlFinalizar = false;
 
         this.alertaVidas = document.getElementById("alertaVidas");
         this.alertaCartas = document.getElementById("alertaCartas");
         this.alertaTiempo = document.getElementById("alertaTiempo");
 
-        for (let i = 0; i < this.botones.length; i++) {
-            this.botones[i].addEventListener("click", () => this.prepararJuego());
-        }
-
         this.botonEmpezar.addEventListener("click", () => this.empezarJuego());
         this.botonEmpezarPredefinida.addEventListener("click", () => this.empezarJuegoPorDefecto());
         document.getElementById("botonReinicio").addEventListener("click", () => this.reiniciar());
 
+        // ELEMENTOS UI
         this.panelPuntuacion = document.getElementById("puntuacion");
         this.panelDescubiertas = document.getElementById("descubiertas");
         this.panelAciertos = document.getElementById("aciertos");
 
+        // VENTANAS PUNTUACION FINAL
         this.panelesAciertosFinal = document.getElementsByClassName("scoreAciertosFinal")
         this.panelesTiempoFinal = document.getElementsByClassName("scoreTiempoFinal");
         this.panelesPuntuacionFinal = document.getElementsByClassName("scorePuntuacionFinal");
-
-        this.checkBoxAbrurPestana = document.getElementById("abrirPestana");
-        this.abrirPestanaAlFinalizar = false;
 
         let estaElJuegoActivo = false;
 
     }
 
+    // Este método se invoca al ganar la partida, te manda a la pantalla de victoria
     ganar(){
         console.log("HAS GANADO!");
         this.vGanar.classList.toggle('abrir');
@@ -492,6 +517,7 @@ class ManagerGame{
         }
     }
 
+    // Este método se invoca al perder la partida, te manda a la pantalla de derrota
     perder(){
         console.log("HAS PERDIDO!");
         mC.listaCartas.forEach(carta => carta.bloquear());
@@ -504,7 +530,14 @@ class ManagerGame{
         }
         
     }
+    
+    // Este metodo reinicia la partida inmediatamente
+    reiniciar(){
+        this.cerrarPartida();
+        this.prepararJuego();
+    }
 
+    // Cierra la partida, para evitar reptir código, detiene el tiempo y actualiza estadísticas
     cerrarPartida(){
 
         mT.detenerTemporizador();
@@ -517,12 +550,7 @@ class ManagerGame{
         
     }
 
-    reiniciar(){
-        mT.detenerTemporizador();
-        this.prepararJuego();
-        this.estaElJuegoActivo = false;
-    }
-
+    // Este método prepara el juego, es decir, pone los valores a 0, y abre el panel de ajustes de partida
     prepararJuego(){
         this.vGanar.classList.toggle('abrir',false);
         this.vPerder.classList.toggle('abrir',false);
@@ -534,9 +562,11 @@ class ManagerGame{
 
     }
 
+    // Está conectado activamente con el anterior método, inicia una partida PERSONALIZADA con los valores de ajustes
     empezarJuego(){
         this.sonValoresValidos = true;
 
+        // Que el numero no sea 0 o negativo o esté vacío
         if(parseInt(this.inputVidas.value) <= 0 || !this.inputVidas.value){
             this.alertaVidas.textContent = "No es un numero Válido!"
             this.sonValoresValidos=false;
@@ -564,6 +594,7 @@ class ManagerGame{
             mV.inicializarVidas(parseInt(this.inputVidas.value));
             mT.inicializarTiempo(parseInt(this.inputTiempo.value));
             this.parejasTotales = parseInt(this.inputCartas.value);
+
             this.vJugar.classList.toggle('abrir',false);
             this.actualizar();
             this.estaElJuegoActivo= true;
@@ -571,10 +602,7 @@ class ManagerGame{
         }
     }
 
-    anadirPuntos(cantidad){
-        this.puntuacion += cantidad;
-    }
-
+    // Es similar a "empezarJuego" pero este con unos valores predefinidos
     empezarJuegoPorDefecto(){
         mC.crearCartas(6);
         mV.inicializarVidas(6);
@@ -587,6 +615,12 @@ class ManagerGame{
         this.abrirPestanaAlFinalizar = false;
     }
 
+    // Método para aumentar la puntuacion
+    anadirPuntos(cantidad){
+        this.puntuacion += cantidad;
+    }
+
+    // Método para llevar seguimiento de los aciertos
     acierto(){
         this.parejasActuales ++;
         this.actualizar();
@@ -596,12 +630,14 @@ class ManagerGame{
         this.aciertos++;
     }
 
+    // Método para llevar seguimiento de los fallos
     fallo(){
         this.actualizar();
         this.fallos ++;
         mV.perderVida();
     }
 
+    // Actualiza las estadísticas en pantalla
     actualizar(){
         this.panelPuntuacion.textContent = mG.puntuacion;
         this.panelDescubiertas.textContent = mG.parejasActuales + "/" + mG.parejasTotales;
@@ -610,6 +646,7 @@ class ManagerGame{
     : Math.round(mG.aciertos / (mG.fallos + mG.aciertos) * 100) + "%";
     }
 
+    // Actualiza las estadisticas a local storage (para que no se pierda en otra pestaña) y las ventanas emergentes
     actualizarPantallaFinPartida(){
         for (let i = 0; i < this.panelesAciertosFinal.length; i++) {
             this.panelesAciertosFinal[i].textContent = this.panelAciertos.textContent;
