@@ -39,6 +39,30 @@ function getIcon(num){
     return image;
 }
 
+function playSound(num){
+    let sound = '';
+    switch (num){
+        case 0: sound = new Audio("sounds/s_crearCarta.ogg");
+            break;
+        case 1: sound = new Audio("sounds/s_emparejado.wav");
+            break;
+        case 2: sound = new Audio("sounds/s_noEmparejado.wav");
+            break;
+        case 3: sound = new Audio("sounds/s_hoverCarta.wav");
+            break;
+        case 4: sound = new Audio("sounds/s_voltearCarta.wav");
+            break;
+        case 5: sound = new Audio("sounds/s_perderVida.wav");
+            break;
+        case 6: sound = new Audio("sounds/s_perderVida.wav");
+            break;
+        default: sound = new Audio("sounds/s_crearCarta.ogg");
+            break;
+    }
+
+    sound.play();
+}
+
 /*  
     /// OBJETO CARTA ///
     Funciones/Métodos:
@@ -90,10 +114,14 @@ class Carta {
         this.estaBloqueada = false;
         this.asignarListeners();
         this.mostrarCarta(this.seMuestra);
+        
     }
 
     asignarListeners() {
         this.objetoCarta.addEventListener("click", () => mC.seleccionarCarta(this));
+        this.objetoCarta.addEventListener("mouseenter", () => {
+            playSound(3);
+        });
     }
 
     // MOSTRAR COMO SELECCIONADA
@@ -102,6 +130,7 @@ class Carta {
         this.seMuestra = !this.seMuestra;
         this.objetoCarta.classList.toggle('seleccionada', this.seMuestra);
         this.mostrarCarta(this.seMuestra);
+        playSound(0);
     }
 
     // DESBLOQUEAR LA CARTA (AHORA ES CLICKABLE)
@@ -162,6 +191,7 @@ class Vida {
         this.elemento = document.createElement('img');
         this.elemento.src = 'images/corazon2.png';
         this.elemento.classList.add('vida');
+        
     }
 
     // Hace su animacion y se elimina del dom
@@ -281,7 +311,7 @@ class ManagerCartas {
 
     //Selecciona una carta
     seleccionarCarta(carta) {
-
+        
         if(carta.estaBloqueada){
             return;
         }
@@ -309,6 +339,7 @@ class ManagerCartas {
                 this.cartaB = null;
                 mG.anadirPuntos(this.puntosPareja);
                 mG.acierto();
+                
             }
             else{
                 console.log("¡NO SON IGUALES!");
@@ -324,6 +355,7 @@ class ManagerCartas {
             }
             
         }
+        playSound(4);
     }
 
 }
@@ -620,6 +652,7 @@ class ManagerGame{
     // Método para llevar seguimiento de los aciertos
     acierto(){
         this.parejasActuales ++;
+        playSound(1);
         this.actualizar();
         if(this.parejasActuales >= this.parejasTotales){
             this.ganar();
@@ -629,6 +662,7 @@ class ManagerGame{
 
     // Método para llevar seguimiento de los fallos
     fallo(){
+        playSound(2);
         this.actualizar();
         this.fallos ++;
         mV.perderVida();
