@@ -40,7 +40,6 @@
     background-color: #030B20;
     font-size: 1.5rem;
     font-weight: bold;
-
     transition:
         transform 0.3s ease,
         background-color 0.2s ease-in-out,
@@ -51,20 +50,15 @@
 }
 
 .carta.fallo{
-    animation: balanceoAmplio ease-in-out 0.2s;
+    animation: balanceoCorto ease-in-out 0.2s;
 }
 
 .carta.aparecer{
     animation: aparecer 0.3s ease-in-out; 
 }
-.carta img {
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    transition: transform 0.6s;
-}
 
 .carta .dorso {
+    position: absolute;
     border-radius: 0.7rem;
     width: 100%;
     height: 100%;
@@ -73,7 +67,10 @@
 }
 
 .carta .cara {
+    position: absolute;
+    backface-visibility: hidden;
     background-color: #030B20;
+    transform: rotateY(180deg);
     border-radius: 0.7rem;
     display: flex;
     flex-direction: column; 
@@ -86,15 +83,16 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    padding: 1rem;
 
 }
 
 .carta .cara img {
-
-    padding-top: 1rem;
+    
     max-height: 50%; 
     max-width: 100%; 
     object-fit: contain;
+    display: block;
 
 }
 
@@ -109,6 +107,10 @@
 .carta.seleccionada {
     border-color: white;
     transform: scale(1.1); 
+}
+
+.carta.mostrar{
+    transform: rotateY(-180deg);
 }
 
 /* Estilo de cada carta COMPLETADA*/
@@ -128,7 +130,7 @@
     height: 5rem;
     margin: 1rem;
     display: flex;
-    animation: balanceo ease-in-out 2.5s infinite alternate, flotar ease-in-out 1.5s infinite alternate; 
+    animation: balanceo ease-in-out 2.5s infinite alternate, flotar ease-in-out 1.5s infinite alternate, aparecer 0.2s ease-in; 
     filter: drop-shadow(rgba(12, 12, 26, 0.678) 0.5rem 0.5rem 10px);
 
 }
@@ -161,7 +163,7 @@
         rotate: 15deg;}
 }
 
-@keyframes balanceoAmplio {
+@keyframes balanceoCorto {
     0% {
         rotate: 0deg;}
     25% {
@@ -178,7 +180,7 @@
     0% {
         transform: translateY(0rem)}
     100% {
-        transform: translateY(1rem)}
+        transform: translateY(1.5rem)}
 }
 
 @keyframes rebote {

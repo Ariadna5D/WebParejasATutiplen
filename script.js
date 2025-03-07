@@ -124,13 +124,7 @@ class Carta {
 
     // MUESTRA LA CARTA
     mostrarCarta(mostrar) {
-        if (mostrar) {
-            this.cartaCara.style.display = 'block'; // Mostrar la cara
-            this.cartaDorso.style.display = 'none'; // Ocultar el dorso
-        } else {
-            this.cartaCara.style.display = 'none'; // Ocultar la cara
-            this.cartaDorso.style.display = 'block'; // Mostrar el dorso
-        }
+        this.objetoCarta.classList.toggle('mostrar', mostrar);
     }
 
     // ANIMACION DE FALLO
@@ -207,9 +201,11 @@ class ManagerCartas {
         this.listaCartas = [];
         this.contenedor = document.getElementById('contenedorCartas');
     }
-
+    
     // Función para crear cartas
     crearCartas(num) {
+        this.cartaA = null;
+        this.cartaB = null;
         this.contenedor.innerHTML = '';
         const cantidad = num;
         this.listaCartas = [];
@@ -229,9 +225,9 @@ class ManagerCartas {
                 id2 = 1;
                 id1 ++;
             }
-            id2++;
             const carta1 = new Carta(id2,id1);
             const carta2 = new Carta(id2,id1);
+            id2++;
 
             this.listaCartas.push(carta1);
             this.listaCartas.push(carta2);
@@ -274,11 +270,13 @@ class ManagerCartas {
 
     // Función para barajar cartas
     barajarCartas(cartas) {
+        
         for (let i = cartas.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [cartas[i], cartas[j]] = [cartas[j], cartas[i]];
         }
         console.log('Cartas barajadas');
+        
     }
 
     //Selecciona una carta
@@ -344,7 +342,7 @@ class ManagerVidas{
         this.contenedorVidas = document.getElementById('contenedorVidas');
     }
     
-    // CREA UN ARRAY DE VIDAS
+    // Crea un Array de vidas
     inicializarVidas(num) {
         
         this.vidas = [];
@@ -356,11 +354,12 @@ class ManagerVidas{
                 let vida = new Vida();
                 this.vidas.push(vida);
                 this.contenedorVidas.appendChild(vida.elemento);
+                
             }, i * 150); 
-        }
+        }        
     }
 
-    // DESTRUYE LA ULTIMA VIDA DEL ARRAY
+    // Destruye la última vida del array
     perderVida() {
         if (this.vidas.length > 0) {
             let vida = this.vidas.pop();
@@ -371,7 +370,7 @@ class ManagerVidas{
         }
     }
 
-    // AÑADE TANTAS VIDAS COMO SE DESEE
+    // Añade tantas vidas como se desee
     anadirVidas(num) {
         for (let i = 0; i < num; i++) {
             let vida = new Vida();
@@ -403,6 +402,7 @@ class ManagerTemporizador{
     // INICIA EL TEMPORIZADOR
     iniciarTemporizador() {
         
+        // Solo si está el juego activo
         if(mG.estaElJuegoActivo === true){
             // Actualizar el temporizador cada segundo
             this.intervalo = setInterval(() => {
@@ -416,9 +416,6 @@ class ManagerTemporizador{
                 }
             }, 1000);
         }
-
-
-
     }
 
     // TRASLADAR A UI

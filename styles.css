@@ -97,7 +97,7 @@ main {
     padding: 1.25rem;
     background-color: var(--colorFondoMain);
     display: flex;
-    min-height: 100vh;
+    min-height: 30vh;
     margin: 0;
     flex-direction: column;
     background-image: url(images/b_stars2.jpg);
