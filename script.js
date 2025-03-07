@@ -585,7 +585,7 @@ class ManagerGame{
         this.vPerder.classList.toggle('abrir',false);
         this.vJugar.classList.toggle('abrir',true);
         this.fallos = 0;
-        this.aciertos = 0;
+        this.aciertos = 1;
         this.parejasActuales = 0;
         this.puntuacion = 0;
 
@@ -651,8 +651,8 @@ class ManagerGame{
 
     // Método para llevar seguimiento de los aciertos
     acierto(){
-        this.parejasActuales ++;
         playSound(1);
+        this.parejasActuales ++;
         this.actualizar();
         if(this.parejasActuales >= this.parejasTotales){
             this.ganar();
@@ -663,8 +663,8 @@ class ManagerGame{
     // Método para llevar seguimiento de los fallos
     fallo(){
         playSound(2);
-        this.actualizar();
         this.fallos ++;
+        this.actualizar();
         mV.perderVida();
     }
 
@@ -672,9 +672,13 @@ class ManagerGame{
     actualizar(){
         this.panelPuntuacion.textContent = mG.puntuacion;
         this.panelDescubiertas.textContent = mG.parejasActuales + "/" + mG.parejasTotales;
-        this.panelAciertos.textContent = (mG.aciertos + mG.fallos === 0) 
-    ? "0%" 
-    : Math.round(mG.aciertos / (mG.fallos + mG.aciertos) * 100) + "%";
+        
+        if(this.aciertos === 0 && this.fallos === 0){
+            this.panelAciertos.textContent = "100%";
+        }
+        else{
+            this.panelAciertos.textContent = Math.round(this.aciertos / (this.fallos + this.aciertos) * 100) + "%";
+        }
     }
 
     // Actualiza las estadisticas a local storage (para que no se pierda en otra pestaña) y las ventanas emergentes
